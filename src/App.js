@@ -23,13 +23,16 @@ class BooksApp extends React.Component {
     query.length > 0
       ? BooksAPI.search(query)
           .then((books) => {
-            const updatedBooks = books.map((b) => {
-              if (b.shelf === undefined) b.shelf = "None";
-              return b;
-            });
-            this.setState({ filteredBooks: updatedBooks });
-          })
-          .catch((err) => {
+            if(books.length > 0){
+              const updatedBooks = books.map((b) => {
+                if (b.shelf === undefined) b.shelf = "None";
+                return b;
+              });
+              this.setState({ filteredBooks: updatedBooks });
+            }else{
+              this.setState({ filteredBooks: [] });
+            }
+          }).catch((err) => {
             console.log(err);
           })
       : this.setState({ filteredBooks: [] });
